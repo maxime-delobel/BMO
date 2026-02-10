@@ -38,6 +38,33 @@ def google_search(zoekterm: str):
     except Exception as e:
         return f"Error: I couldn't connect to your PC. Is the bridge running? ({e})"
 
+def open_native_windows_app(nativeAppName: str):
+    """
+    Opent een native windows app
+    Use this when the user asks to open an app native to windows (it's an app that is installed by default on windows)
+    """
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(5) # Don't wait forever if PC is off
+            s.connect((PC_IP, PORT))
+            nativeAppName = "APP:" + nativeAppName #zodat de listener kan filteren
+            s.sendall(nativeAppName.encode('utf-8'))
+        return f"Successfully opened app: {nativeAppName}"
+    except Exception as e:
+        return f"Error: I couldn't connect to your PC. Is the bridge running? ({e})"
+
+
+def open_third_party_applicattion(thirdPartyAppName : str):
+     """
+    Opent een third party application (application that is installed by the user)
+    Use this when the user asks to open an app non-native to windows (it's an app that is not installed by default on windows, the user installed it)
+    """
+
+def open_game():
+    """
+    Opent een game op de computer
+    Use this when the users states he/she wants to play a game or something similar.
+    """
 def wake_pc(url: str):
     """
     Turns on the pc via wake-on-lan.
@@ -46,7 +73,7 @@ def wake_pc(url: str):
     print(f"--- BMO Sending Command: {url} ---")
     try:
         send_magic_packet('D8-43-AE-66-85-90')
-        return f"Successfully opened send the magic packet to wake up pc"
+        return f"Successfully send the magic packet to wake up pc"
     except Exception as e:
         return f"Error: Couldn't turn on pc: ({e})"
 
@@ -57,14 +84,14 @@ client = genai.Client()
 # We enable 'automatic_function_calling' so BMO actually sends the signal 
 # without you having to manually handle the request.
 chat = client.chats.create(
-    model="gemini-3-flash-preview",
+    model="gemini-2.5-flash",
     config={
-        'tools': [open_pc_site, wake_pc, google_search],
+        'tools': [open_pc_site, wake_pc, google_search, open_native_windows_app],
         'automatic_function_calling': {'disable': False},
         'system_instruction': (
             "Je bent BMO. Geef ALTIJD een kort tekstueel antwoord aan de gebruiker, "
             "ook als je een tool aanroept of een zoekopdracht uitvoert. "
-            "Houd je antwoorden beknopt (max 300 tekens)."
+            "Houd je antwoorden beknopt (max 300 tekens). Als er een app moet worden geopend, ga ervan uit dat windows in het engels staat ingesteld"
         )
     }
 )
