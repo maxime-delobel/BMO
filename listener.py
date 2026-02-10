@@ -36,7 +36,7 @@ def app_launcher(app_name):
             if APP_SHORTCUTS[app_name]:
                 app_name_abbr = APP_SHORTCUTS[app_name]
             print(f"Method 1: Trying with windows start option: start {app_name_abbr}")
-            subprocess.Popen(subprocess.Popen(f'start "" {app_name_abbr}', shell=True))
+            subprocess.Popen(f'start "" {app_name_abbr}', shell=True)
             print(f"Success!")
             success = True
         except Exception as e:
