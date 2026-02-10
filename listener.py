@@ -35,7 +35,7 @@ def app_launcher(app_name):
             app_name_abbr = app_name
             if APP_SHORTCUTS[app_name]:
                 app_name_abbr = APP_SHORTCUTS[app_name]
-            print(f"Method 4: Trying with windows start option: start {app_name_abbr}")
+            print(f"Method 1: Trying with windows start option: start {app_name_abbr}")
             subprocess.Popen(subprocess.Popen(f'start "" {app_name_abbr}', shell=True))
             print(f"Success!")
             success = True
@@ -53,7 +53,7 @@ def app_launcher(app_name):
     
     # Method 3: Use shutil.which to find in PATH
     path = shutil.which(app_name)
-    if path and not success:
+    if not success and path:
         try:
             print(f"Method 3: Found in PATH: {path}")
             subprocess.Popen(path, shell=True)
