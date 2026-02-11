@@ -38,10 +38,10 @@ def google_search(zoekterm: str):
     except Exception as e:
         return f"Error: I couldn't connect to your PC. Is the bridge running? ({e})"
 
-def open_native_windows_app(nativeAppName: str):
+def open_app(nativeAppName: str):
     """
-    Opent een native windows app
-    Use this when the user asks to open an app native to windows (it's an app that is installed by default on windows)
+    Opent een applicatie op windows
+    Use this when the user asks to open an app 
     """
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -53,16 +53,15 @@ def open_native_windows_app(nativeAppName: str):
     except Exception as e:
         return f"Error: I couldn't connect to your PC. Is the bridge running? ({e})"
 
-
-def open_third_party_applicattion(thirdPartyAppName : str):
-     """
-    Opent een third party application (application that is installed by the user)
-    Use this when the user asks to open an app non-native to windows (it's an app that is not installed by default on windows, the user installed it)
-    """
-
 def open_game():
     """
     Opent een game op de computer
+    Use this when the users states he/she wants to play a specific game or something similar.
+    """
+
+def open_steam():
+    """
+    Opent steam op de computer
     Use this when the users states he/she wants to play a game or something similar.
     """
 def wake_pc(url: str):
@@ -86,7 +85,7 @@ client = genai.Client()
 chat = client.chats.create(
     model="gemini-2.5-flash",
     config={
-        'tools': [open_pc_site, wake_pc, google_search, open_native_windows_app],
+        'tools': [open_pc_site, wake_pc, google_search, open_app, open_game, open_steam],
         'automatic_function_calling': {'disable': False},
         'system_instruction': (
             "Je bent BMO. Geef ALTIJD een kort tekstueel antwoord aan de gebruiker, "
