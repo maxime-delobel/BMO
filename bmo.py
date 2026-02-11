@@ -64,6 +64,33 @@ def open_steam():
     Opent steam op de computer
     Use this when the users states he/she wants to play a game or something similar.
     """
+
+def copy_to_clipboard(text):
+    """
+    Zet de text die wordt meegegeven in de functie (werd ingesproken door de gebruiker) in het clipboard van de computer
+    Use this when the user asks to save certain text to clipboard
+    """
+
+def type_text(text):
+    """
+    Typt de text die wordt meegegeven in de functie op de PC
+    Use this when the user asks to type something
+    """
+def take_screenshot():
+    """
+    Neemt een schermafbeelding van het scherm dat op de pc wordt getoond
+    Use this when the user asks to take a screenshot or something similar.
+    """
+def adjust_volume(percentage):
+    """
+    Verandert het volumeniveau naar het meegegeven percentage op de PC
+    Use this when the user asks to alter the volume level to a given percentage
+    """
+def mute_unmute():
+    """
+    Mute of unmute het volume op de PC
+    Use this when the user asks to mute or unmute
+    """
 def wake_pc(url: str):
     """
     Turns on the pc via wake-on-lan.
@@ -84,8 +111,8 @@ client = genai.Client()
 # without you having to manually handle the request.
 chat = client.chats.create(
     model="gemini-2.5-flash",
-    config={
-        'tools': [open_pc_site, wake_pc, google_search, open_app, open_game, open_steam],
+    config= {
+        'tools': [open_pc_site, wake_pc, google_search, open_app, open_game, open_steam, copy_to_clipboard,type_text, take_screenshot, adjust_volume, mute_unmute],
         'automatic_function_calling': {'disable': False},
         'system_instruction': (
             "Je bent BMO. Geef ALTIJD een kort tekstueel antwoord aan de gebruiker, "
